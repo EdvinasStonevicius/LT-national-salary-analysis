@@ -1,0 +1,22 @@
+nace	sector
+A	"Žemės ūkis, miškininkystė ir žuvininkystė"
+B	Kasyba ir karjerų eksploatavimas
+C	Apdirbamoji gamyba
+D	"Elektros, dujų, garo tiekimas ir oro kondicionavimas"
+E	"Vandens tiekimas nuotekų valymas, atliekų tvarkymas ir regeneravimas"
+F	Statyba
+G	Didmeninė ir mažmeninė prekyba; variklinių transporto priemonių ir motociklų remontas
+H	Transportas ir saugojimas
+I	Apgyvendinimo ir maitinimo paslaugų veikla
+J	Informacija ir ryšiai
+K	Finansinė ir draudimo veikla
+L	Nekilnojamojo turto operacijos
+M	"Profesinė, mokslinė ir techninė veikla"
+N	Administracinė ir aptarnavimo veikla
+O	Viešasis valdymas ir gynyba; privalomasis socialinis draudimas
+P	Svietimas
+Q	Žmonių sveikatos priežiūra ir socialinis darbas
+R	"Meninė, pramoginė ir poilsio organizavimo veikla"
+S	Kta aptarnavimo veikla
+T	"Namų ūkių, samdančių darbininkus, veikla; namų ūkių veikla, susijusi su savoms reikmėms tenkinti skirtų nediferencijuojamų gaminių gamyba ir paslaugų teikimu"
+U	Ekstrateritorinių organizacijų ir įstaigų veikla

@@ -1,0 +1,131 @@
+lpk	profession
+111	Teisės aktų leidėjai ir vyresnieji valstybės tarnautojai 
+112	"Įmonių, įstaigų ir organizacijų vadovai "
+121	Verslo paslaugų srities ir administracijos vadovai 
+122	"Pardavimo, rinkodaros ir plėtros vadovai "
+131	"Žemės, miškų ir žuvininkystės ūkio produkcijos gamybos vadovai "
+132	"Gamybos, gavybos, statybos ir platinimo vadovai "
+133	Informacinių technologijų ir ryšių paslaugų srities vadovai 
+134	Profesionaliųjų paslaugų srities vadovai 
+141	Viešbučių ir restoranų vadovai 
+142	Mažmeninės ir didmeninės prekybos vadovai 
+143	Kitų paslaugų srities vadovai 
+211	Fizinių mokslų specialistai 
+212	"Matematikai, aktuarai ir statistikai "
+213	Gyvosios gamtos mokslų specialistai 
+214	Inžinerijos specialistai (išskyrus elektros technologijų inžinierius) 
+215	Elektros technologijų inžinieriai 
+216	"Architektai, planuotojai, topografai ir dizaineriai "
+221	Gydytojai 
+222	Slaugos ir akušerijos specialistai 
+223	Tradicinės ir liaudies medicinos specialistai 
+224	Paramedikai 
+225	Veterinarai 
+226	Kiti sveikatos specialistai 
+231	Aukštųjų mokyklų dėstytojai 
+232	Profesijos mokytojai 
+233	Pagrindinio ir vidurinio ugdymo mokytojai 
+234	Pradinio ir ikimokyklinio ugdymo mokytojai 
+235	Kiti mokymo specialistai 
+241	Finansų specialistai 
+242	Administravimo specialistai 
+243	"Pardavimo, rinkodaros ir viešųjų ryšių specialistai "
+251	Programinės įrangos ir taikomųjų programų kūrėjai ir analitikai 
+252	Duomenų bazių ir tinklų specialistai 
+261	Teisės specialistai 
+262	"Bibliotekininkai, archyvų ir muziejų specialistai "
+263	Socialinės ir religinės sričių specialistai 
+264	"Autoriai, žurnalistai ir kalbininkai "
+265	Kūrybiniai darbuotojai ir atlikėjai 
+311	Fizinių mokslų ir inžinerijos technikai 
+312	"Gavybos, gamybos ir statybos darbų meistrai ir brigadininkai "
+313	Technologinių procesų valdymo technikai 
+314	Gyvosios gamtos mokslų technikai ir jaunesnieji giminiškų profesijų specialistai 
+315	Laivų ir orlaivių valdymo vadovai ir technikai 
+321	Medicinos ir farmacijos technikai 
+322	Jaunesnieji slaugos ir akušerijos specialistai 
+323	Jaunesnieji tradicinės ir liaudies medicinos specialistai 
+324	Veterinarijos technikai ir felčeriai 
+325	Kiti jaunesnieji sveikatos specialistai 
+331	Jaunesnieji finansų ir matematikos specialistai 
+332	Pardavimo ir pirkimo agentai ir brokeriai 
+333	Verslo paslaugų agentai 
+334	Administravimo ir specialiųjų sričių sekretoriai 
+335	Jaunesnieji valstybės tarnybų specialistai 
+341	"Jaunesnieji teisės, socialinių ir religijos profesijų specialistai "
+342	Sporto ir kūno rengybos darbuotojai 
+343	"Jaunesnieji meno, kultūros ir kulinarijos specialistai "
+351	Informacinių technologijų ir ryšių sistemų eksploatavimo ir pagalbos jų naudotojams technikai 
+352	Telekomunikacijų ir transliavimo technikai 
+411	"Tarnautojai, atliekantys bendras funkcijas "
+412	"Sekretoriai, atliekantys bendras funkcijas "
+413	Klavišinių įtaisų operatoriai 
+421	Kasininkai ir giminiškų profesijų tarnautojai 
+422	Klientų informavimo tarnautojai 
+431	"Apskaitos, statistikos ir finansų tarnautojai "
+432	Materialinių vertybių apskaitos ir transporto tarnautojai 
+441	Kiti tarnautojai 
+511	"Kelionių palydovai, konduktoriai ir kelionių vadovai "
+512	Virėjai 
+513	Padavėjai ir barmenai 
+514	"Kirpėjai, kosmetikai ir giminiškų profesijų darbuotojai "
+515	Vyresnieji pastatų ir bendrosios priežiūros darbuotojai 
+516	Kiti paslaugų asmenims darbuotojai 
+521	Gatvės prekystalių ir turgaviečių pardavėjai 
+522	Parduotuvių pardavėjai 
+523	Kasininkai ir bilietų pardavėjai 
+524	Kiti pardavėjai 
+531	Vaikų priežiūros darbuotojai ir mokytojų padėjėjai 
+532	Asmens sveikatos priežiūros darbuotojai 
+541	Apsaugos darbuotojai 
+611	Kultūrinių augalų augintojai 
+612	Gyvūnų augintojai 
+613	Kultūrinių augalų ir gyvūnų augintojai 
+621	Miškų ūkio ir giminiškų profesijų darbuotojai 
+622	Žvejai ir medžiotojai 
+631	Natūraliojo ūkio kultūrinių augalų augintojai 
+632	Natūraliojo ūkio gyvulių augintojai 
+633	Mišriojo natūraliojo ūkio kultūrinių augalų ir gyvulių augintojai 
+634	"Natūraliojo ūkio žvejai, miško gėrybių ir vaistažolių rinkėjai "
+711	Statybininkai montuotojai ir giminiškų profesijų darbininkai 
+712	Statybininkai apdailininkai ir giminiškų profesijų darbininkai 
+713	"Dažytojai, statybinių konstrukcijų valytojai ir giminiškų profesijų darbininkai "
+721	"Skardininkai, metalinių konstrukcijų montuotojai, metalo liejikai, suvirintojai ir giminiškų profesijų darbininkai "
+722	"Kalviai, įrankininkai ir giminiškų profesijų darbininkai "
+723	Mašinų mechanikai ir taisytojai 
+731	Amatininkai 
+732	Spausdinimo darbininkai 
+741	Elektros įrangos įrengėjai ir taisytojai 
+742	Elektroninės ir telekomunikacijų įrangos įrengėjai ir taisytojai 
+751	Maisto gamintojai ir giminiškų profesijų darbininkai 
+752	"Medienos meistrai, baldžiai ir giminiškų profesijų darbininkai "
+753	Siuvėjai ir giminiškų profesijų darbininkai 
+754	Kiti kvalifikuoti darbininkai ir amatininkai 
+811	Kasybos ir rūdų apdorojimo įrenginių operatoriai 
+812	Metalų apdirbimo ir poliravimo įrenginių operatoriai 
+813	Chemijos ir fotografijos gaminių gamybos įrenginių ir mašinų operatoriai 
+814	"Guminių, plastikinių ir popierinių gaminių gamybos mašinų operatoriai "
+815	"Tekstilės, kailio ir odos gaminių gamybos mašinų operatoriai "
+816	Maisto ir panašių produktų gamybos mašinų operatoriai 
+817	Medienos apdirbimo ir popieriaus gamybos įrenginių operatoriai 
+818	Kiti stacionariųjų įrenginių ir mašinų operatoriai 
+821	Surinkėjai 
+831	Lokomotyvų mašinistai ir giminiškų profesijų darbininkai 
+832	"Lengvųjų automobilių, furgonų ir motociklų vairuotojai "
+833	Sunkiasvorių sunkvežimių ir autobusų vairuotojai 
+834	Judamųjų įrenginių operatoriai 
+835	Laivų įgulų nariai ir giminiškų profesijų darbininkai 
+911	"Namų, viešbučių ir biurų valytojai, kambarinės ir pagalbininkai "
+912	"Transporto priemonių ir langų plovėjai, skalbėjai ir kiti valytojai (rankomis) "
+921	"Nekvalifikuoti žemės, miškų ir žuvininkystės ūkio darbininkai "
+931	Nekvalifikuoti gavybos ir statybos darbininkai 
+932	Nekvalifikuoti apdirbimo pramonės darbininkai 
+933	Nekvalifikuoti transporto ir sandėliavimo darbininkai 
+941	Maisto ruošimo padėjėjai 
+951	Gatvėje teikiamų paslaugų teikėjai 
+952	Ne maisto produktų gatvės pardavėjai 
+961	Buitinių atliekų surinkėjai 
+962	Kiti nekvalifikuoti darbininkai 
+011	"Ginkluotųjų pajėgų karininkai, generolai ir admirolai "
+021	"Ginkluotųjų pajėgų puskarininkiai, seržantai ir viršilos "
+031	"Ginkluotųjų pajėgų profesijos, kiti laipsniai "

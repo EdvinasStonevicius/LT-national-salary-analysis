@@ -5,6 +5,7 @@ UPDATE employees
 SET nace = TRIM(LEADING 'X' FROM nace)
 WHERE length(nace)>1 AND key_e> 0 ; -- Table key  used in statment to overrun safe mode
 
+
 -- Remove redundant fields
 ALTER TABLE employees
 DROP COLUMN _type, 

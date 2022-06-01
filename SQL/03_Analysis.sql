@@ -21,15 +21,30 @@ WHERE year = 2018
 GROUP BY lpk
 ORDER BY avg_hourly_rate DESC;
 
-/* padaryti kad būtų skirtingi metai šalia
+-- !!!!!!!! surasti alternatyvas su temporar tables etc ir sukurti funkcijas???
 -- Average hourly rate of profession in 2014 and 2018
-SELECT 	p.lpk,
-		p.profession,
-        round(avg(e14.hourly_rate), 2) as hourly_rate_2014,
-        round(avg(e18.hourly_rate), 2) as hourly_rate_2018
-FROM employees e14
-JOIN employees e18 USING(lpk)
-JOIN lpk_profession p USING(lpk) 
-GROUP BY lpk
-ORDER BY hourly_rate_2014 DESC;
-*/
+SELECT 
+	lpk,
+	hr14.profession,
+    hourly_rate_2014,
+    hourly_rate_2018,
+    round(hourly_rate_2018 - hourly_rate_2014, 2) as difference,
+    round((hourly_rate_2018 - hourly_rate_2014) / hourly_rate_2014 *100, 2) as percent_change
+FROM 
+	(SELECT p.lpk,
+			p.profession,
+			round(avg(e14.hourly_rate), 2) as hourly_rate_2014
+	FROM employees e14
+	JOIN lpk_profession p USING(lpk) 
+	WHERE year = 2014
+	GROUP BY lpk) as hr14
+JOIN 
+	(SELECT p.lpk,
+			p.profession,
+			round(avg(e18.hourly_rate), 2) as hourly_rate_2018
+	FROM employees e18
+	JOIN lpk_profession p USING(lpk) 
+	WHERE year = 2018
+	GROUP BY lpk) as hr18 
+USING (lpk)
+ORDER BY percent_change DESC 

@@ -99,4 +99,39 @@ JOIN hr14 USING (nace) --  only sectors with data for both years, combine with L
 JOIN hr18 USING (nace) --  to get all sectors including with no data or data for just one year
 ORDER BY percent_change DESC;
 */
+/*-- Average hourly rate in 2018 of female and male employees in combination of sectors and education degrees  
+WITH 
+hr_f AS (  -- Average for females with different education
+	SELECT nace,
+			education,
+			round(AVG(hourly_rate), 2) AS hourly_rate_f,
+            count(nace) AS n_female
+	FROM employees
+	WHERE sex = 'F' AND year = 2018
+	GROUP BY nace, education),
+ hr_m AS ( -- Average for males with different education
+	SELECT nace,
+			education,
+			round(AVG(hourly_rate), 2) AS hourly_rate_m,
+            count(nace) AS n_male
+	FROM employees
+	WHERE sex = 'M' AND year = 2018
+	GROUP BY nace, education)
+SELECT nace,
+	sector,
+    degree, 
+    n_female,
+    n_male,
+    hourly_rate_f,
+    hourly_rate_m,
+    round(hourly_rate_m - hourly_rate_f, 2) AS difference,
+	round((hourly_rate_m - hourly_rate_f) / hourly_rate_f *100, 2) AS percent_diff	
+FROM hr_f							
+FULL JOIN hr_m USING (nace, education)	-- FULL JOIN to keep all records
+JOIN economic_sector USING (nace)		-- INNER JOIN to keep only sectors with emploees
+JOIN education_degree USING (education)	-- INNER JOIN to keep only emploees degree
+WHERE n_female >= 10 AND n_male >= 10 	-- Remove combinations with small sample
+ORDER BY  nace, hourly_rate_f;
+*/
+
 -- !!!!!!!! surasti alternatyvas su  sukurtom funkcijom ir parametrais???

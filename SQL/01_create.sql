@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS salary_lt.employees
  `esize_cd` int,
  `esize_class` varchar(6),
  `collective` varchar(1),
- `sex` varchar(1),
+ `gender` varchar(1),
  `age_class` varchar(5),
  `lpk` varchar(3),
  `education` varchar(2),

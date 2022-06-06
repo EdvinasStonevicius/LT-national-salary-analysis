@@ -1,35 +1,175 @@
 USE salary_lt;
 
--- Number of employees of each profession
-SELECT 	e.lpk,
-		p.profession,
-		count(lpk) as lpk_count
-FROM employees e
-JOIN lpk_profession p USING(lpk) 
+/*Number of employees in groups (size of selected samples, insight on confidence)
+-- Number of employees of each profession (total for both years)
+SELECT 
+    lpk, profession, COUNT(lpk) AS lpk_count
+FROM
+    employees
+        JOIN
+    lpk_profession USING (lpk)
 GROUP BY lpk
-ORDER BY lpk_count DESC;
+ORDER BY lpk_count;
 
--- Average salary of each profession in 2018
-SELECT 	e.lpk,
-		p.profession,
-        round(avg(total), 0) as avg_total,
-        round(avg(total_oct), 0) as avg_total_oct,
-        round(avg(hourly_rate), 2) as avg_hourly_rate
-FROM employees e
-JOIN lpk_profession p USING(lpk) 
-WHERE year = 2018
-GROUP BY lpk
-ORDER BY avg_hourly_rate DESC;
+-- Number of employees in each sector (total for both years)
+SELECT 
+    nace, sector, COUNT(nace) AS nace_count
+FROM
+    employees
+        JOIN
+    economic_sector USING (nace)
+GROUP BY nace
+ORDER BY nace_count;
 
-/* padaryti kad būtų skirtingi metai šalia
--- Average hourly rate of profession in 2014 and 2018
-SELECT 	p.lpk,
-		p.profession,
-        round(avg(e14.hourly_rate), 2) as hourly_rate_2014,
-        round(avg(e18.hourly_rate), 2) as hourly_rate_2018
-FROM employees e14
-JOIN employees e18 USING(lpk)
-JOIN lpk_profession p USING(lpk) 
-GROUP BY lpk
-ORDER BY hourly_rate_2014 DESC;
+-- Number of employees with particular education degrees (total for both years)
+SELECT 
+    education, degree, COUNT(education) AS education_count
+FROM
+    employees
+        JOIN
+    education_degree USING (education)
+GROUP BY education
+ORDER BY education_count;
 */
+
+
+/*-- Average hourly rate of profession with large (eg. 100) sample in both 2014 and 2018 (using CTE) 
+SET @size_gt = 100;
+WITH 
+hr14 AS (  -- Average for 2014
+	SELECT lpk,
+			round(AVG(hourly_rate), 2) AS hourly_rate_2014,
+            count(lpk) AS n_2014
+	FROM employees
+	WHERE year = 2014
+	GROUP BY lpk
+    HAVING n_2014 > @size_gt),
+ hr18 AS ( -- Average for 2018
+	SELECT lpk,
+			round(AVG(hourly_rate), 2) AS hourly_rate_2018,
+            count(lpk) AS n_2018
+	FROM employees
+	WHERE year = 2018
+	GROUP BY lpk
+     HAVING n_2018 > @size_gt)
+SELECT lpk,
+	profession,
+    hourly_rate_2014,
+    hourly_rate_2018,
+    round(hourly_rate_2018 - hourly_rate_2014, 2) AS difference,
+    round((hourly_rate_2018 - hourly_rate_2014) / hourly_rate_2014 *100, 2) AS percent_change
+FROM lpk_profession -- INNER JOIN to keep only professions with more than selected number of employees and
+JOIN hr14 USING (lpk) --  only professions with data for both years, combine with LEFT/RIGHT JOINS
+JOIN hr18 USING (lpk) --  to get all professions including with no data or data for just one year
+ORDER BY percent_change DESC;
+*/
+
+
+/*-- Average hourly rate in economic sectors for 2014, 2018 and relative change
+-- (using CTE and OVER) 
+SET @size_gt = 100;
+WITH 
+hr14 AS (  -- Average for 2014
+	SELECT nace,
+			round(AVG(hourly_rate), 2) AS hourly_rate_2014,
+            count(nace) AS n_2014
+	FROM employees
+	WHERE year = 2014
+	GROUP BY nace
+    HAVING n_2014 > @size_gt),
+ hr18 AS ( -- Average for 2018
+	SELECT nace,
+			round(AVG(hourly_rate), 2) AS hourly_rate_2018,
+            count(nace) AS n_2018
+	FROM employees
+	WHERE year = 2018
+	GROUP BY nace
+     HAVING n_2018 > @size_gt)
+SELECT nace,
+	sector,
+    hourly_rate_2014,
+    hourly_rate_2018,
+    round(hourly_rate_2018 - hourly_rate_2014, 2) AS difference,
+	round((hourly_rate_2018 - hourly_rate_2014) / hourly_rate_2014 *100, 2) AS percent_change,
+	round((hourly_rate_2018 - hourly_rate_2014) / hourly_rate_2014 *100 -
+		AVG((hourly_rate_2018 - hourly_rate_2014) / hourly_rate_2014 *100) 
+		OVER (), 2 ) AS perc_dev_from_average -- Shows relative gains and losses
+    
+FROM  economic_sector -- INNER JOIN to keep only sectors with more than selected number of employees and
+JOIN hr14 USING (nace) --  only sectors with data for both years, combine with LEFT/RIGHT JOINS
+JOIN hr18 USING (nace) --  to get all sectors including with no data or data for just one year
+ORDER BY percent_change DESC;
+*/
+
+
+/*-- Average hourly rate of female and male employees in combination of sectors and education degrees  
+WITH 
+hr_f AS (  -- Average for females with different education in different sectors
+	SELECT nace,
+			education,
+            year,
+			round(AVG(hourly_rate), 2) AS hourly_rate_f,
+            count(nace) AS n_female
+	FROM employees
+	WHERE gender = 'F' 
+	GROUP BY nace, education, year),
+ hr_m AS ( -- Average for males with different education in different sectors
+	SELECT nace,
+			education,
+            year,
+			round(AVG(hourly_rate), 2) AS hourly_rate_m,
+            count(nace) AS n_male
+	FROM employees
+	WHERE gender = 'M' 
+	GROUP BY nace, education, year)
+SELECT nace,
+	sector,
+    degree,
+    year,
+    n_female,
+    n_male,
+    hourly_rate_f,
+    hourly_rate_m,
+    round(hourly_rate_m - hourly_rate_f, 2) AS difference,
+	round((hourly_rate_m - hourly_rate_f) / hourly_rate_f *100, 2) AS percent_diff	
+FROM hr_f							
+FULL JOIN hr_m USING (nace, education, year)	-- FULL JOIN to keep all records
+JOIN economic_sector USING (nace)				-- INNER JOIN to keep only sectors with emploees
+JOIN education_degree USING (education)			-- INNER JOIN to keep only emploee degrees
+WHERE n_female >= 10 AND n_male >= 10 			-- Remove combinations with small sample;
+*/
+
+
+/*-- Distribution of education degrees in sectors (total for both years) , %
+SELECT 
+    nace,
+    sector,
+    ROUND(COUNT(CASE
+                WHEN education = 'G1' THEN nace
+                ELSE NULL
+            END) / COUNT(nace) * 100,
+            2) AS perc_G1,
+    ROUND(COUNT(CASE
+                WHEN education = 'G2' THEN nace
+                ELSE NULL
+            END) / COUNT(nace) * 100,
+            2) AS perc_G2,
+    ROUND(COUNT(CASE
+                WHEN education = 'G3' THEN nace
+                ELSE NULL
+            END) / COUNT(nace) * 100,
+            2) AS perc_G3,
+    ROUND(COUNT(CASE
+                WHEN education = 'G4' THEN nace
+                ELSE NULL
+            END) / COUNT(nace) * 100,
+            2) AS perc_G4
+FROM
+    employees
+        JOIN
+    economic_sector USING (nace)
+GROUP BY nace
+ORDER BY perc_G1;
+*/
+
+-- !!!!!!!! surasti alternatyvas su  sukurtom funkcijom ir parametrais???

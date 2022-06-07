@@ -102,7 +102,9 @@ ORDER BY percent_change DESC;
 */
 
 
-/*-- Average hourly rate of female and male employees in combination of sectors and education degrees  
+/*-- Create view with average hourly rate of female and male employees in combination of sectors and education degrees  */
+DROP VIEW IF EXISTS gender_hr;
+CREATE VIEW gender_hr AS
 WITH 
 hr_f AS (  -- Average for females with different education in different sectors
 	SELECT nace,
@@ -123,6 +125,7 @@ hr_f AS (  -- Average for females with different education in different sectors
 	WHERE gender = 'M' 
 	GROUP BY nace, education, year)
 SELECT nace,
+	education,
 	sector,
     degree,
     year,
@@ -136,8 +139,41 @@ FROM hr_f
 FULL JOIN hr_m USING (nace, education, year)	-- FULL JOIN to keep all records
 JOIN economic_sector USING (nace)				-- INNER JOIN to keep only sectors with emploees
 JOIN education_degree USING (education)			-- INNER JOIN to keep only emploee degrees
-WHERE n_female >= 10 AND n_male >= 10 			-- Remove combinations with small sample;
+-- WHERE n_female >= 10 AND n_male >= 10 		-- If needed, remove combinations with small sample
+WITH CHECK OPTION;
+
+
+/*-- Sectors where female hourly rate higher than male  
+SELECT  DISTINCT nace,
+		sector
+FROM
+    gender_hr
+WHERE percent_diff < 0  					-- Negative difference - female hr is higher
+	AND n_female >= 50 AND n_male >= 50 	-- If needed, remove combinations with small sample
+ORDER BY percent_diff;
 */
+
+/*-- Stored procedure for queries on gender hourly rate diferences  */
+DROP PROCEDURE IF EXISTS gender_hr_difference;
+
+DELIMITER //
+CREATE PROCEDURE gender_hr_difference(
+                    IN education_code varchar(50),
+                    IN nace_code varchar(50),
+                    IN survey_year varchar(50))
+BEGIN
+SELECT 
+    *
+FROM
+    gender_hr
+WHERE find_in_set(education, education_code)  
+	AND find_in_set(nace, nace_code)
+    AND find_in_set(year, survey_year)
+    ORDER BY nace;
+END //
+DELIMITER ;
+
+CALL gender_hr_difference( 'G1,G2,G3,G4', 'Q,P,I', '2014,2018');
 
 
 /*-- Distribution of education degrees in sectors (total for both years) , %
@@ -171,5 +207,3 @@ FROM
 GROUP BY nace
 ORDER BY perc_G1;
 */
-
--- !!!!!!!! surasti alternatyvas su  sukurtom funkcijom ir parametrais???

@@ -14,7 +14,7 @@ L	Nekilnojamojo turto operacijos
 M	"Profesinė, mokslinė ir techninė veikla"
 N	Administracinė ir aptarnavimo veikla
 O	Viešasis valdymas ir gynyba; privalomasis socialinis draudimas
-P	Svietimas
+P	Švietimas
 Q	Žmonių sveikatos priežiūra ir socialinis darbas
 R	"Meninė, pramoginė ir poilsio organizavimo veikla"
 S	Kta aptarnavimo veikla

@@ -306,13 +306,14 @@ ORDER BY perc_G1;
 */
 
 /*-- Number of hours per year and month (October) on average employees work in sectors 
--- (based on salary and hourly rate)
+-- (based on salary and hourly rate and hours field)
 WITH averages AS
 (SELECT 
     nace,
     AVG(gross_salary) AS annual,
     AVG(gross_salary_oct) AS monthly,
-    AVG(hourly_rate) AS hourly
+    AVG(hourly_rate) AS hourly,
+    ROUND(AVG(hours), 0) AS hours_field
 FROM
     employees
 GROUP BY nace)
@@ -320,7 +321,8 @@ GROUP BY nace)
     nace,
     sector,
     ROUND(annual / hourly, 0) AS hours_year,
-    ROUND(monthly / hourly, 0) AS hours_month
+    ROUND(monthly / hourly, 0) AS hours_month,
+    hours_field
 FROM
     averages
         JOIN

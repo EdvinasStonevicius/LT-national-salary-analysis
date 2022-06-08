@@ -3,7 +3,9 @@ USE salary_lt;
 /*Number of employees in groups (size of selected samples, insight on confidence)
 -- Number of employees of each profession (total for both years)
 SELECT 
-    lpk, profession, COUNT(lpk) AS lpk_count
+    lpk,
+    profession,
+    COUNT(lpk) AS lpk_count
 FROM
     employees
         JOIN
@@ -13,7 +15,9 @@ ORDER BY lpk_count;
 
 -- Number of employees in each sector (total for both years)
 SELECT 
-    nace, sector, COUNT(nace) AS nace_count
+    nace,
+    sector,
+    COUNT(nace) AS nace_count
 FROM
     employees
         JOIN
@@ -23,7 +27,9 @@ ORDER BY nace_count;
 
 -- Number of employees with particular education degrees (total for both years)
 SELECT 
-    education, degree, COUNT(education) AS education_count
+    education,
+    degree,
+    COUNT(education) AS education_count
 FROM
     employees
         JOIN
@@ -32,6 +38,99 @@ GROUP BY education
 ORDER BY education_count;
 */
 
+/* --View of mean, standard deviation and coefficient of variation in different groups 
+DROP VIEW IF EXISTS hourly_rate_mean_variation;
+CREATE VIEW hourly_rate_mean_variation AS
+    SELECT 
+        'year' AS dimension,
+        year,
+        COUNT(*) AS count,
+        ROUND(AVG(hourly_rate), 2) AS mean,
+        ROUND(STD(hourly_rate), 2) AS sd,
+        ROUND(STD(hourly_rate) / AVG(hourly_rate), 2) AS cv
+    FROM
+        employees
+    GROUP BY year 
+    UNION SELECT 
+        'gender' AS dimension,
+        gender,
+        COUNT(*) AS count,
+        ROUND(AVG(hourly_rate), 2) AS mean,
+        ROUND(STD(hourly_rate), 2) AS sd,
+        ROUND(STD(hourly_rate) / AVG(hourly_rate), 2) AS cv
+    FROM
+        employees
+    GROUP BY gender 
+    UNION SELECT 
+        'nace' AS dimension,
+        nace,
+        COUNT(*) AS count,
+        ROUND(AVG(hourly_rate), 2) AS mean,
+        ROUND(STD(hourly_rate), 2) AS sd,
+        ROUND(STD(hourly_rate) / AVG(hourly_rate), 2) AS cv
+    FROM
+        employees
+    GROUP BY nace 
+    UNION SELECT 
+        'collective' AS dimension,
+        collective,
+        COUNT(*) AS count,
+        ROUND(AVG(hourly_rate), 2) AS mean,
+        ROUND(STD(hourly_rate), 2) AS sd,
+        ROUND(STD(hourly_rate) / AVG(hourly_rate), 2) AS cv
+    FROM
+        employees
+    GROUP BY collective 
+    UNION SELECT 
+        'contract' AS dimension,
+        contract,
+        COUNT(*) AS count,
+        ROUND(AVG(hourly_rate), 2) AS mean,
+        ROUND(STD(hourly_rate), 2) AS sd,
+        ROUND(STD(hourly_rate) / AVG(hourly_rate), 2) AS cv
+    FROM
+        employees
+    GROUP BY contract 
+    UNION SELECT 
+        'education' AS dimension,
+        education,
+        COUNT(*) AS count,
+        ROUND(AVG(hourly_rate), 2) AS mean,
+        ROUND(STD(hourly_rate), 2) AS sd,
+        ROUND(STD(hourly_rate) / AVG(hourly_rate), 2) AS cv
+    FROM
+        employees
+    GROUP BY education 
+    UNION SELECT 
+        'lpk' AS dimension,
+        lpk,
+        COUNT(*) AS count,
+        ROUND(AVG(hourly_rate), 2) AS mean,
+        ROUND(STD(hourly_rate), 2) AS sd,
+        ROUND(STD(hourly_rate) / AVG(hourly_rate), 2) AS cv
+    FROM
+        employees
+    GROUP BY lpk;
+  */  
+  
+/*-- Stored procedure for queries on hourly rate statistics  
+DROP PROCEDURE IF EXISTS hr_statistics;
+
+DELIMITER //
+CREATE PROCEDURE hr_statistics(
+                    IN select_dimension varchar(30))
+BEGIN
+SELECT 
+    *
+FROM
+    hourly_rate_mean_variation
+WHERE find_in_set(dimension, select_dimension) 
+    ORDER BY dimension, mean;
+END //
+DELIMITER ;
+
+CALL hr_statistics( 'year,gender');
+*/
 
 /*-- Average hourly rate of profession with large (eg. 100) sample in both 2014 and 2018 (using CTE) 
 SET @size_gt = 100;
@@ -63,7 +162,6 @@ JOIN hr14 USING (lpk) --  only professions with data for both years, combine wit
 JOIN hr18 USING (lpk) --  to get all professions including with no data or data for just one year
 ORDER BY percent_change DESC;
 */
-
 
 /*-- Average hourly rate in economic sectors for 2014, 2018 and relative change
 -- (using CTE and OVER) 
@@ -101,8 +199,7 @@ JOIN hr18 USING (nace) --  to get all sectors including with no data or data for
 ORDER BY percent_change DESC;
 */
 
-
-/*-- Create view with average hourly rate of female and male employees in combination of sectors and education degrees  */
+/*-- Create view with average hourly rate of female and male employees in combination of sectors and education degrees  
 DROP VIEW IF EXISTS gender_hr;
 CREATE VIEW gender_hr AS
 WITH 
@@ -141,7 +238,7 @@ JOIN economic_sector USING (nace)				-- INNER JOIN to keep only sectors with emp
 JOIN education_degree USING (education)			-- INNER JOIN to keep only emploee degrees
 -- WHERE n_female >= 10 AND n_male >= 10 		-- If needed, remove combinations with small sample
 WITH CHECK OPTION;
-
+*/
 
 /*-- Sectors where female hourly rate higher than male  
 SELECT  DISTINCT nace,
@@ -153,7 +250,7 @@ WHERE percent_diff < 0  					-- Negative difference - female hr is higher
 ORDER BY percent_diff;
 */
 
-/*-- Stored procedure for queries on gender hourly rate diferences  */
+/*-- Stored procedure for queries on gender hourly rate diferences  
 DROP PROCEDURE IF EXISTS gender_hr_difference;
 
 DELIMITER //

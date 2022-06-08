@@ -1,6 +1,6 @@
 USE salary_lt;
 
-/*Number of employees in groups (size of selected samples, insight on confidence)
+/*-- Number of employees in groups (size of selected samples, insight on confidence)
 -- Number of employees of each profession (total for both years)
 SELECT 
     lpk,
@@ -303,4 +303,59 @@ FROM
     economic_sector USING (nace)
 GROUP BY nace
 ORDER BY perc_G1;
+*/
+
+/*-- Number of hours per year and month (October) on average employees work in sectors 
+-- (based on salary and hourly rate)
+WITH averages AS
+(SELECT 
+    nace,
+    AVG(gross_salary) AS annual,
+    AVG(gross_salary_oct) AS monthly,
+    AVG(hourly_rate) AS hourly
+FROM
+    employees
+GROUP BY nace)
+   SELECT 
+    nace,
+    sector,
+    ROUND(annual / hourly, 0) AS hours_year,
+    ROUND(monthly / hourly, 0) AS hours_month
+FROM
+    averages
+        JOIN
+    economic_sector USING (nace)
+ORDER BY hours_year; 
+*/
+
+/*-- Sectors and professions with largest reported bonuses
+SELECT 
+    nace,
+    sector,
+    COUNT(nace) AS count,
+    ROUND(bonuses / total * 100, 2) AS perc_annual_bonus,
+    ROUND((bonuses_oct + bonuses_add_oct) / total_oct * 100,
+            2) AS perc_monthly_bonus
+FROM
+    employees
+        JOIN
+    economic_sector USING (nace)
+GROUP BY nace
+HAVING perc_annual_bonus > 0 OR perc_monthly_bonus > 0 -- Very likely not all bonuses are included
+ORDER BY perc_annual_bonus DESC; 
+
+SELECT 
+    lpk,
+    profession,
+    COUNT(lpk) AS count,
+    ROUND(bonuses / total * 100, 2) AS perc_annual_bonus,
+    ROUND((bonuses_oct + bonuses_add_oct) / total_oct * 100,
+            2) AS perc_monthly_bonus
+FROM
+    employees
+        JOIN
+    lpk_profession USING (lpk)
+GROUP BY lpk
+HAVING perc_annual_bonus > 0 OR perc_monthly_bonus > 0 -- Very likely not all bonuses are included
+ORDER BY perc_annual_bonus DESC; 
 */

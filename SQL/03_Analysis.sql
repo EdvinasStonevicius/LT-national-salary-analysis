@@ -1,5 +1,6 @@
 USE salary_lt;
 
+
 -- Number of employees in groups (size of selected samples, insight on confidence)
 -- Number of employees of each profession (total for both years)
 SELECT 
@@ -36,6 +37,7 @@ FROM
     education_degree USING (education)
 GROUP BY education
 ORDER BY education_count;
+
 
 
 -- View of mean, standard deviation and coefficient of variation in different groups 
@@ -162,7 +164,6 @@ JOIN hr14 USING (lpk) --  only professions with data for both years, combine wit
 JOIN hr18 USING (lpk) --  to get all professions including with no data or data for just one year
 ORDER BY percent_change DESC;
 
-
 -- Average hourly rate in economic sectors for 2014, 2018 and relative change
 -- (using CTE and OVER) 
 SET @size_gt = 100;
@@ -198,7 +199,6 @@ JOIN hr14 USING (nace) --  only sectors with data for both years, combine with L
 JOIN hr18 USING (nace) --  to get all sectors including with no data or data for just one year
 ORDER BY percent_change DESC;
 
-
 -- Create view with average hourly rate of female and male employees in combination of sectors and education degrees  
 DROP VIEW IF EXISTS gender_hr;
 CREATE VIEW gender_hr AS
@@ -222,8 +222,8 @@ hr_f AS (  -- Average for females with different education in different sectors
 	WHERE gender = 'M' 
 	GROUP BY nace, education, year)
 SELECT nace,
-	education,
-	sector,
+	  education,
+	  sector,
     degree,
     year,
     n_female,
@@ -303,7 +303,6 @@ FROM
     economic_sector USING (nace)
 GROUP BY nace
 ORDER BY perc_G1;
-
 
 -- Number of hours per year and month (October) on average employees work in sectors 
 -- (based on salary and hourly rate and hours field)

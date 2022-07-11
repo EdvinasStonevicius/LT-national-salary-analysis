@@ -1,4 +1,3 @@
-/* */ 
 DROP SCHEMA IF  EXISTS salary_lt;  
 CREATE SCHEMA `salary_lt`;
 USE salary_lt;

@@ -1,6 +1,6 @@
 USE salary_lt;
 
-/*-- Number of employees in groups (size of selected samples, insight on confidence)
+-- Number of employees in groups (size of selected samples, insight on confidence)
 -- Number of employees of each profession (total for both years)
 SELECT 
     lpk,
@@ -36,9 +36,9 @@ FROM
     education_degree USING (education)
 GROUP BY education
 ORDER BY education_count;
-*/
 
-/* --View of mean, standard deviation and coefficient of variation in different groups 
+
+-- View of mean, standard deviation and coefficient of variation in different groups 
 DROP VIEW IF EXISTS hourly_rate_mean_variation;
 CREATE VIEW hourly_rate_mean_variation AS
     SELECT 
@@ -111,9 +111,9 @@ CREATE VIEW hourly_rate_mean_variation AS
     FROM
         employees
     GROUP BY lpk;
-  */  
+
   
-/*-- Stored procedure for queries on hourly rate statistics  
+-- Stored procedure for queries on hourly rate statistics  
 DROP PROCEDURE IF EXISTS hr_statistics;
 
 DELIMITER //
@@ -130,9 +130,9 @@ END //
 DELIMITER ;
 
 CALL hr_statistics( 'year,gender');
-*/
 
-/*-- Average hourly rate of profession with large (eg. 100) sample in both 2014 and 2018 (using CTE) 
+
+-- Average hourly rate of profession with large (eg. 100) sample in both 2014 and 2018 (using CTE) 
 SET @size_gt = 100;
 WITH 
 hr14 AS (  -- Average for 2014
@@ -161,9 +161,9 @@ FROM lpk_profession -- INNER JOIN to keep only professions with more than select
 JOIN hr14 USING (lpk) --  only professions with data for both years, combine with LEFT/RIGHT JOINS
 JOIN hr18 USING (lpk) --  to get all professions including with no data or data for just one year
 ORDER BY percent_change DESC;
-*/
 
-/*-- Average hourly rate in economic sectors for 2014, 2018 and relative change
+
+-- Average hourly rate in economic sectors for 2014, 2018 and relative change
 -- (using CTE and OVER) 
 SET @size_gt = 100;
 WITH 
@@ -197,9 +197,9 @@ FROM  economic_sector -- INNER JOIN to keep only sectors with more than selected
 JOIN hr14 USING (nace) --  only sectors with data for both years, combine with LEFT/RIGHT JOINS
 JOIN hr18 USING (nace) --  to get all sectors including with no data or data for just one year
 ORDER BY percent_change DESC;
-*/
 
-/*-- Create view with average hourly rate of female and male employees in combination of sectors and education degrees  
+
+-- Create view with average hourly rate of female and male employees in combination of sectors and education degrees  
 DROP VIEW IF EXISTS gender_hr;
 CREATE VIEW gender_hr AS
 WITH 
@@ -238,9 +238,9 @@ JOIN economic_sector USING (nace)				-- INNER JOIN to keep only sectors with emp
 JOIN education_degree USING (education)			-- INNER JOIN to keep only emploee degrees
 -- WHERE n_female >= 10 AND n_male >= 10 		-- If needed, remove combinations with small sample
 WITH CHECK OPTION;
-*/
 
-/*-- Sectors where female hourly rate higher than male  
+
+-- Sectors where female hourly rate higher than male  
 SELECT  DISTINCT nace,
 		sector
 FROM
@@ -248,9 +248,9 @@ FROM
 WHERE percent_diff < 0  					-- Negative difference - female hr is higher
 	AND n_female >= 50 AND n_male >= 50 	-- If needed, remove combinations with small sample
 ORDER BY percent_diff;
-*/
 
-/*-- Stored procedure for queries on gender hourly rate diferences  
+
+-- Stored procedure for queries on gender hourly rate diferences  
 DROP PROCEDURE IF EXISTS gender_hr_difference;
 
 DELIMITER //
@@ -273,7 +273,7 @@ DELIMITER ;
 CALL gender_hr_difference( 'G1,G2,G3,G4', 'Q,P,I', '2014,2018');
 
 
-/*-- Distribution of education degrees in sectors (total for both years) , %
+-- Distribution of education degrees in sectors (total for both years) , %
 SELECT 
     nace,
     sector,
@@ -303,9 +303,9 @@ FROM
     economic_sector USING (nace)
 GROUP BY nace
 ORDER BY perc_G1;
-*/
 
-/*-- Number of hours per year and month (October) on average employees work in sectors 
+
+-- Number of hours per year and month (October) on average employees work in sectors 
 -- (based on salary and hourly rate and hours field)
 WITH averages AS
 (SELECT 
@@ -328,9 +328,9 @@ FROM
         JOIN
     economic_sector USING (nace)
 ORDER BY hours_year; 
-*/
 
-/*-- Sectors and professions with largest reported bonuses
+
+-- Sectors and professions with largest reported bonuses
 SELECT 
     nace,
     sector,
@@ -360,4 +360,3 @@ FROM
 GROUP BY lpk
 HAVING perc_annual_bonus > 0 OR perc_monthly_bonus > 0 -- Very likely not all bonuses are included
 ORDER BY perc_annual_bonus DESC; 
-*/
